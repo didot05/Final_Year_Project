@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="w6BWML" name="synth" projectType="audioplug" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1" displaySplashScreen="1"
+              pluginFormats="buildAU,buildAUv3,buildStandalone,buildVST3" pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
+              cppLanguageStandard="17">
+  <MAINGROUP id="qZIhu0" name="synth">
+    <GROUP id="{54244CAD-593E-8215-D757-DB324F3C5BFD}" name="Resources">
+      <FILE id="RTbhea" name="WOOD.png" compile="0" resource="1" file="Resources/WOOD.png"/>
+    </GROUP>
+    <GROUP id="{C63A892D-2651-59E4-21CC-373587F7426F}" name="UI">
+      <FILE id="EM0pMq" name="AdsrComponent.cpp" compile="1" resource="0"
+            file="Source/UI/AdsrComponent.cpp"/>
+      <FILE id="W75Pn0" name="AdsrComponent.h" compile="0" resource="0" file="Source/UI/AdsrComponent.h"/>
+      <FILE id="ThI5td" name="ChorusComponent.cpp" compile="1" resource="0"
+            file="Source/UI/ChorusComponent.cpp"/>
+      <FILE id="M7njIQ" name="ChorusComponent.h" compile="0" resource="0"
+            file="Source/UI/ChorusComponent.h"/>
+      <FILE id="h54pGj" name="CompressorComponent.cpp" compile="1" resource="0"
+            file="Source/UI/CompressorComponent.cpp"/>
+      <FILE id="JSNqbQ" name="CompressorComponent.h" compile="0" resource="0"
+            file="Source/UI/CompressorComponent.h"/>
+      <FILE id="roJV1T" name="CustomComponent.cpp" compile="1" resource="0"
+            file="Source/UI/CustomComponent.cpp"/>
+      <FILE id="SWyy90" name="CustomComponent.h" compile="0" resource="0"
+            file="Source/UI/CustomComponent.h"/>
+      <FILE id="HN5gmJ" name="FilterComponent.cpp" compile="1" resource="0"
+            file="Source/UI/FilterComponent.cpp"/>
+      <FILE id="pGHiOi" name="FilterComponent.h" compile="0" resource="0"
+            file="Source/UI/FilterComponent.h"/>
+      <FILE id="DNWhKY" name="MeterComponent.cpp" compile="1" resource="0"
+            file="Source/UI/MeterComponent.cpp"/>
+      <FILE id="PgimTS" name="MeterComponent.h" compile="0" resource="0"
+            file="Source/UI/MeterComponent.h"/>
+      <FILE id="qhcur6" name="OscComponent.cpp" compile="1" resource="0"
+            file="Source/UI/OscComponent.cpp"/>
+      <FILE id="oj9WcI" name="OscComponent.h" compile="0" resource="0" file="Source/UI/OscComponent.h"/>
+      <FILE id="FLrHVx" name="OtherLookAndFeel.h" compile="0" resource="0"
+            file="Source/UI/OtherLookAndFeel.h"/>
+      <FILE id="SnqrXm" name="PhaserComponent.cpp" compile="1" resource="0"
+            file="Source/UI/PhaserComponent.cpp"/>
+      <FILE id="kUz2JJ" name="PhaserComponent.h" compile="0" resource="0"
+            file="Source/UI/PhaserComponent.h"/>
+      <FILE id="CEQV4s" name="ReverbComponent.cpp" compile="1" resource="0"
+            file="Source/UI/ReverbComponent.cpp"/>
+      <FILE id="RympEL" name="ReverbComponent.h" compile="0" resource="0"
+            file="Source/UI/ReverbComponent.h"/>
+    </GROUP>
+    <GROUP id="{62FF5964-30D1-0DEF-BC4A-71FA34371FFF}" name="Data">
+      <FILE id="eSbH6F" name="AdsrData.cpp" compile="1" resource="0" file="Source/Data/AdsrData.cpp"/>
+      <FILE id="ODr1Ly" name="AdsrData.h" compile="0" resource="0" file="Source/Data/AdsrData.h"/>
+      <FILE id="lPj13M" name="ChorusData.cpp" compile="1" resource="0" file="Source/Data/ChorusData.cpp"/>
+      <FILE id="Cuij0Q" name="ChorusData.h" compile="0" resource="0" file="Source/Data/ChorusData.h"/>
+      <FILE id="iaWgW4" name="CompressorData.cpp" compile="1" resource="0"
+            file="Source/Data/CompressorData.cpp"/>
+      <FILE id="EzI5EX" name="CompressorData.h" compile="0" resource="0"
+            file="Source/Data/CompressorData.h"/>
+      <FILE id="ls44ap" name="FilterData.cpp" compile="1" resource="0" file="Source/Data/FilterData.cpp"/>
+      <FILE id="U6ByRG" name="FilterData.h" compile="0" resource="0" file="Source/Data/FilterData.h"/>
+      <FILE id="AbIB0Z" name="OscData.cpp" compile="1" resource="0" file="Source/Data/OscData.cpp"/>
+      <FILE id="bPEhJV" name="OscData.h" compile="0" resource="0" file="Source/Data/OscData.h"/>
+      <FILE id="uRcQDH" name="PhaserData.cpp" compile="1" resource="0" file="Source/Data/PhaserData.cpp"/>
+      <FILE id="UPO6J5" name="PhaserData.h" compile="0" resource="0" file="Source/Data/PhaserData.h"/>
+    </GROUP>
+    <GROUP id="{E5F1E1B4-CD13-9DFF-04E7-22B2102AF80D}" name="Source">
+      <FILE id="qqb9Al" name="Synth_Sound.h" compile="0" resource="0" file="Source/Synth_Sound.h"/>
+      <FILE id="Ucewkn" name="Synth_Voice.cpp" compile="1" resource="0" file="Source/Synth_Voice.cpp"/>
+      <FILE id="R4m6Jg" name="Synth_Voice.h" compile="0" resource="0" file="Source/Synth_Voice.h"/>
+      <FILE id="HJMta3" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="iQs8sD" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="mZNBim" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="znohK5" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
+  <EXPORTFORMATS>
+    <VS2019 targetFolder="Builds/VisualStudio2019">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="synth"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="synth"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../Programming/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../Programming/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../Programming/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../Programming/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../Programming/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../Programming/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../Programming/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../Programming/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../Programming/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../Programming/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../Programming/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../Programming/JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../Programming/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2019>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+</JUCERPROJECT>
