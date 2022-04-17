@@ -30,10 +30,6 @@ void OscData::renderNextBlock(juce::AudioBuffer<float>& synthBuffer) {
 	
 	float leftCoeff = pow(clip(1 - pan), 2.f),
 		rightCoeff = pow(clip(pan + 1), 2.f);
-
-	//synth oscillator with LFO FM 
-	//sample = a1 * O1(TWOPI*f1*s + a2 * f1*O2(TWOPI*f2*p));
-	//float samples[UNISON_MAX];
 	
 	float frequencies[UNISON_MAX];
 
@@ -59,36 +55,6 @@ void OscData::renderNextBlock(juce::AudioBuffer<float>& synthBuffer) {
 	}
 }
 
-/*void OscData::renderNextBlock(juce::AudioBuffer<float>& synthBuffer) {
-	int numSamples = synthBuffer.getNumSamples();
-	float *bufferL, *bufferR;
-	bufferL = synthBuffer.getWritePointer(0, 0);
-	bufferR = synthBuffer.getWritePointer(1, 0);
-	
-	//synth oscillator with LFO FM 
-	//sample = a1 * O1(TWOPI*f1*s + a2 * f1*O2(TWOPI*f2*p));
-	float samples;
-	f1 = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber + pitchOffset) + detune;
-	float leftCoeff = pow(clip(1 - pan), 2.f), 
-		rightCoeff = pow(clip(pan + 1), 2.f);
-	
-	for (int s = 0; s < numSamples; ++s)
-	{
-		float O2PhaseIncrement = TWOPI * f2 / sampleRate;
-		float O2PhaseVal = O2Phase.advance(O2PhaseIncrement) - PI;
-
-		float O1PhaseIncrement = TWOPI * f1 / sampleRate + a2 * f1*Osc2(O2PhaseVal);
-		float O1PhaseVal = O1Phase.advance(O1PhaseIncrement) -PI;
-		float sample = a1 * Osc1(O1PhaseVal);
-		
-		
-		sample = (sample > 0.f) ? pow(sample, distortion) : -pow(abs(sample), distortion);
-		
-		//stereo panoram
-		bufferL[s] += leftCoeff* sample; bufferR[s] += rightCoeff*sample;
-	}
-}*/
-
 void OscData::prepareToPlay(double sampleRate, int /*samplesPerBlock*/, int /*outputChannels*/) { this->sampleRate = sampleRate; }
 
 void OscData::setFreq(const int midiNoteNumber) { this->midiNoteNumber = midiNoteNumber; }
@@ -100,7 +66,7 @@ void OscData::setParams(const OscParams& params)
 	detune = params.detune;
 	distortion = params.distortion;
 	f2 = params.fmFreq;
-	a2 = params.fmDepth/2000.f;
+	a2 = params.fmDepth / 2000.f;
 	pan = params.pan;
 	unison = params.unison;
 
@@ -108,8 +74,8 @@ void OscData::setParams(const OscParams& params)
 	if (fmType != (int)params.FmChoice) { fmType = params.FmChoice; createLookupTableO2(fmType); }
 }
 
-float triangle(float x) { return std::asin(std::sin(x))*2.f / PI; }
-float saw(float x) { return std::atan(std::tan(-x / 2.f + PI / 2))*2.f / PI; }
+float triangle(float x) { return std::asin(std::sin(x)) * 2.f / PI; }
+float saw(float x) { return std::atan(std::tan(-x / 2.f + PI / 2)) * 2.f / PI; }
 float sawSmooth(float x) {
 	float output = 0.f, dCustom = 12.f;
 
@@ -117,7 +83,7 @@ float sawSmooth(float x) {
 		output += (std::sin(n*x)) / n;
 	return output * 2.f / PI;
 }
-float square(float x) { return std::floor(std::sin(x))*2.f + 1.f; }
+float square(float x) { return std::floor(std::sin(x)) * 2.f + 1.f; }
 float randomFloat(float x) { return rand() / float(RAND_MAX) * 2.f - 1.f; }
 float reverseSawtooth(float x) { return -saw(x); }
 float softdistSine(float x) { return tanh(1.2 * std::sin(x)); }
@@ -140,7 +106,7 @@ void OscData::createLookupTableO1(const int osc1Selection)
 	case 2: funcPtr = square; break;
 	case 3: funcPtr = triangle; break;
 	case 4: funcPtr = randomFloat; break;
-	case 5: funcPtr = sawSmooth;  break;
+	case 5: funcPtr = sawSmooth; break;
 	case 6: funcPtr = reverseSawtooth; break;
 	case 7: funcPtr = softdistSine; break;
 	case 8: funcPtr = harddistSine; break;
