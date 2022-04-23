@@ -40,7 +40,7 @@ However, without installing JUCE Framework, the execute file does not work.
 
 On the other hand, if you try to use the VST version of the synthesiser, 
 you can use 'synth.vst' file included in this folder also. 
-It is totally the same as standalone version synthesiser 
+It is totally the same as a standalone version synthesiser 
 except for the presence or absence of a virtual midiKeyboard.
-Refer lint for VST plugin;
+Refer link for VST plugin;
 https://docs.juce.com/master/tutorial_create_projucer_basic_plugin.html
