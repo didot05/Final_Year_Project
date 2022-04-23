@@ -3,7 +3,7 @@
 
 ============== Final Year Project 2022 ============
 
-A subtractive software synthesiser built using the JUCE framework.
+A subtractive software synthesiser was built using the JUCE framework.
 
 Implemented Features:
 - two Oscillators
@@ -42,5 +42,5 @@ On the other hand, if you try to use the VST version of the synthesiser,
 you can use 'synth.vst' file included in this folder also. 
 It is totally the same as a standalone version synthesiser 
 except for the presence or absence of a virtual midiKeyboard.
-Refer link for VST plugin;
+Refer link for the VST plugin;
 https://docs.juce.com/master/tutorial_create_projucer_basic_plugin.html
