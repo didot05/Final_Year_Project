@@ -17,22 +17,24 @@ Implemented Features:
 =========================================
 
 To execute this synthesiser, users need to download 
-the JUCE Framework in preceded.
+the JUCE Framework in preceded. Tutorials of JUCE: (https://juce.com/learn/tutorials)
 
 1. Go to the JUCE github site: (https://github.com/juce-framework/JUCE)
 2. Clone the JUCE Repo to the specific location you want 
 : Use git clone command. Following link will be helpful
 ; https://www.atlassian.com/git/tutorials/setting-up-a-repository/git-clone
 3. Build/Open the Projucer file (JUCE’ project management tool)
-: Use the appropriate solution in ”... /JUCE/extras/Projucer/Builds/ ...” 
+: Use the appropriate solution in ”... \JUCE\extras\Projucer\Builds\ ...” 
+: For example, if you use VisualStudio2019, you can find the "Projucer.sln" 
+file on the: "...\JUCE\extras\Projucer\Builds\VisualStudio2019\Projucer.sln...". Just open and run this file. 
 4. Run the Projucer
 5. Select the appropriate exporter & Build the solution
 6. Run the standalone build or add the VST3 build to your VST3 folder to use it in your DAW
 
 After compiling the ’Projucer’ file, click the ’File’ on the caption and open the ’synth.jucer’ file.
 Then, just run/compile the ’synth.jucer’ file’s code. Finally, you can find the compiled .exe file in
-the following direction: *\Final Year Project\Builds\VisualStudio2019\x64\Debug\Standalone
-Plugin\synth.exe.
+the following direction: "... \Final Year Project\Builds\VisualStudio2019\x64\Debug\Standalone
+Plugin\synth.exe"
 
 'synth.exe' (standalone version) is also included in this project folder, 
 so you can use this directly to run the program. 
