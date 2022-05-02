@@ -7,7 +7,7 @@
 
 // 9 types of the OSC that store in the */Data/OscData.cpp
 juce::StringArray oscTypes{ "Sine", "Saw", "Square",
-                        "Triangle", "Noice", "Saw smooth",
+                        "Triangle", "Noise", "Saw smooth",
                         "R-Sawtooth", "SoftSine", "Hard Sine" };
 //==============================================================================
 SynthAudioProcessor::SynthAudioProcessor()
