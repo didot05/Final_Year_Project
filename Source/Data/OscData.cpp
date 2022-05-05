@@ -45,9 +45,9 @@ void OscData::renderNextBlock(juce::AudioBuffer<float>& synthBuffer) {
 
 		float sample = 0;
 		for (int i = 0; i < unisonVal; i++) {
-			float O1PhaseIncrement = DoublePIVal * freqVal[i] / sampleRate + value2 * freqVal[i] * OSC_2(OSCPhase2Val);
-			float O1PhaseVal = OSCPhase1[i].advance(O1PhaseIncrement) - PIVal;
-			sample += value1 * OSC_1(O1PhaseVal)/ unisonVal;
+			float OSCPhase1Increase = DoublePIVal * freqVal[i] / sampleRate + value2 * freqVal[i] * OSC_2(OSCPhase2Val);
+			float OSCPhase1Val = OSCPhase1[i].advance(OSCPhase1Increase) - PIVal;
+			sample += value1 * OSC_1(OSCPhase1Val)/ unisonVal;
 		}
 
 		sample = (sample > 0.f) ? pow(sample, distortionVal) : -pow(abs(sample), distortionVal);
