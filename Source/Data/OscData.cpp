@@ -3,55 +3,58 @@
 // For 'Oscillator' of the synthesiser
 
 #include "OscData.h"
-#define PI juce::MathConstants<float>::pi //PI 
-#define TWOPI juce::MathConstants<float>::twoPi //PI * 2
+#define PIVal juce::MathConstants<float>::pi //PI 
+#define DoublePIVal juce::MathConstants<float>::twoPi //PI * 2
 
 
-float clip(float val, float min=0.f, float max=1.f) {
-	if (val < min) return min;
-	if (val > max) return max;
-	return val;
+float crop(float value, float minVal = 0.f, float maxVal = 1.f) {
+	if (value < minVal) return minVal;
+	if (value > maxVal) return maxVal;
+	return value;
 }
-void gen_unison_frequencies(float* frequencies, float f1, int unison, float detune) {
-	if (unison == 1) {frequencies[0] = f1; return;}
-	float maxDetune = f1 * detune;
-	float step = maxDetune / unison * 2;
-	float currentFreq = f1 - maxDetune;
-	for (int i = 0; i < unison; i++) {
-		frequencies[i] = currentFreq;
-		currentFreq += step;
+void make_Unison_Freq(float* freqVal, float freq1, int uniVal, float detunVal) {
+	if (uniVal == 1) { freqVal[0] = freq1; return;}
+	float detuneMax = freq1 * detunVal;
+	float stage = detuneMax / uniVal * 2;
+	float currentFreqVal = freq1 - detuneMax;
+	for (int i = 0; i < uniVal; i++) {
+		freqVal[i] = currentFreqVal;
+		currentFreqVal += stage;
 	}
 }
 void OscData::renderNextBlock(juce::AudioBuffer<float>& synthBuffer) {
 	int numSamples = synthBuffer.getNumSamples();
-	float *bufferL, *bufferR;
-	bufferL = synthBuffer.getWritePointer(0, 0);
-	bufferR = synthBuffer.getWritePointer(1, 0);
 	
-	float leftCoeff = pow(clip(1 - pan), 2.f),
-		rightCoeff = pow(clip(pan + 1), 2.f);
+	float *bufferLeft, *bufferRight;
+
+	bufferLeft = synthBuffer.getWritePointer(0, 0);
+	bufferRight = synthBuffer.getWritePointer(1, 0);
 	
-	float frequencies[UNISON_MAX];
+	float coEffLeft = pow(crop(1 - pan), 2.f),
+		coEffRight = pow(crop(pan + 1), 2.f);
+	
+	float freqVal[max_Unison];
 
-	f1 = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber + pitchOffset) + detune;
-	gen_unison_frequencies(frequencies, f1, unison, 0.01);
+	freq1 = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber + freqSet) + detuneVal;
+	make_Unison_Freq(freqVal, freq1, unisonVal, 0.01);
 
-	for (int s = 0; s < numSamples; ++s)
+	for (int a = 0; a < numSamples; a++)
 	{
-		float O2PhaseIncrement = TWOPI * f2 / sampleRate;
-		float O2PhaseVal = O2Phase.advance(O2PhaseIncrement) - PI;
+		float OSCPhase2Increase = DoublePIVal * freq2 / sampleRate;
+		float OSCPhase2Val = OSCPhase2.advance(OSCPhase2Increase) - PIVal;
 
 		float sample = 0;
-		for (int i = 0; i < unison; ++i) {
-			float O1PhaseIncrement = TWOPI * frequencies[i] / sampleRate + a2 * frequencies[i] * Osc2(O2PhaseVal);
-			float O1PhaseVal = O1Phases[i].advance(O1PhaseIncrement) - PI;
-			sample += a1 * Osc1(O1PhaseVal)/ unison;
+		for (int i = 0; i < unisonVal; i++) {
+			float O1PhaseIncrement = DoublePIVal * freqVal[i] / sampleRate + value2 * freqVal[i] * OSC_2(OSCPhase2Val);
+			float O1PhaseVal = OSCPhase1[i].advance(O1PhaseIncrement) - PIVal;
+			sample += value1 * OSC_1(O1PhaseVal)/ unisonVal;
 		}
 
-		sample = (sample > 0.f) ? pow(sample, distortion) : -pow(abs(sample), distortion);
+		sample = (sample > 0.f) ? pow(sample, distortionVal) : -pow(abs(sample), distortionVal);
 
 		//stereo panoram
-		bufferL[s] += leftCoeff * sample; bufferR[s] += rightCoeff * sample;
+		bufferLeft[a] += coEffLeft * sample;
+		bufferRight[a] += coEffRight * sample;
 	}
 }
 
@@ -61,43 +64,42 @@ void OscData::setFreq(const int midiNoteNumber) { this->midiNoteNumber = midiNot
 
 void OscData::setParams(const OscParams& params)
 {
-	a1 = std::pow(10.f, params.oscGain / 20.f);
-	pitchOffset = params.oscPitch;
-	detune = params.detune;
-	distortion = params.distortion;
-	f2 = params.fmFreq;
-	a2 = params.fmDepth / 2000.f;
+	value1 = std::pow(10.f, params.oscGain / 20.f);
+	value2 = params.fmDepth / 2000.f;
+	freqSet = params.oscPitch;
+	freq2 = params.fmFreq;
 	pan = params.pan;
-	unison = params.unison;
+	detuneVal = params.detune;
+	distortionVal = params.distortion;
+	unisonVal = params.unison;
 
-	if (oscType != (int)params.oscChoice || nObertones != (int)params.nObertones) { oscType = params.oscChoice; nObertones = params.nObertones; createLookupTableO1(oscType); }
-	if (fmType != (int)params.FmChoice) { fmType = params.FmChoice; createLookupTableO2(fmType); }
+	if (oscType != (int)params.oscChoice || obertoneVal != (int)params.nObertones) { oscType = params.oscChoice; obertoneVal = params.nObertones; makeLookupTable1(oscType); }
+	if (fmType != (int)params.FmChoice) { fmType = params.FmChoice; makeLookupTable2(fmType); }
 }
 
-float triangle(float x) { return std::asin(std::sin(x)) * 2.f / PI; }
-float saw(float x) { return std::atan(std::tan(-x / 2.f + PI / 2)) * 2.f / PI; }
+float triangle(float x) { return std::asin(std::sin(x)) * 2.f / PIVal; }
+float saw(float x) { return std::atan(std::tan(-x / 2.f + PIVal / 2)) * 2.f / PIVal; }
 float sawSmooth(float x) {
-	float output = 0.f, dCustom = 12.f;
-
-	for (float n = 1.f; n < dCustom; n++)
-		output += (std::sin(n*x)) / n;
-	return output * 2.f / PI;
+	float outputAudio = 0.f, revise = 12.f;
+	for (float n = 1.f; n < revise; n++)
+		outputAudio += (std::sin(n * x)) / n;
+	return outputAudio * 2.f / PIVal;
 }
 float square(float x) { return std::floor(std::sin(x)) * 2.f + 1.f; }
 float randomFloat(float x) { return rand() / float(RAND_MAX) * 2.f - 1.f; }
 float reverseSawtooth(float x) { return -saw(x); }
-float softdistSine(float x) { return tanh(1.2 * std::sin(x)); }
-float harddistSine(float x) {
-	double s = 1.3 * (std::sin(x));
-	if (s > 1) s = 1;
-	if (s < -1) s = -1;
-	return s;
+float softSine(float x) { return tanh(1.2 * std::sin(x)); }
+float hardSine(float x) {
+	double outputAudioS = 1.3 * (std::sin(x));
+	if (outputAudioS > 1) outputAudioS = 1;
+	if (outputAudioS < -1) outputAudioS = -1;
+	return outputAudioS;
 }
 
-
-void OscData::createLookupTableO1(const int osc1Selection)
+//Oscilloscope(meter) 
+void OscData::makeLookupTable1(const int osc1Selection)
 {
-	const size_t lookupTableNumPoints = 128;
+	const size_t meterNumberVal = 128;
 	
 	float(*funcPtr)(float) = std::sin;
 	switch (osc1Selection)
@@ -108,31 +110,33 @@ void OscData::createLookupTableO1(const int osc1Selection)
 	case 4: funcPtr = randomFloat; break;
 	case 5: funcPtr = sawSmooth; break;
 	case 6: funcPtr = reverseSawtooth; break;
-	case 7: funcPtr = softdistSine; break;
-	case 8: funcPtr = harddistSine; break;
+	case 7: funcPtr = softSine; break;
+	case 8: funcPtr = hardSine; break;
 	}
-	int nObertonesCopy = nObertones;
+	int obertonesDuplicate = obertoneVal;
 
 	auto* table = new juce::dsp::LookupTableTransform<float>(
-	[nObertonesCopy, funcPtr](float x) {
+	[obertonesDuplicate, funcPtr](float x) {
 		float sum = 0.f;
-		for (int i = 1; i <= 1 + nObertonesCopy; ++i)
-			sum += funcPtr(i*x);
-		sum /= (1.f + nObertonesCopy);
+		for (int i = 1; i <= 1 + obertonesDuplicate; i++)
+			sum += funcPtr(i * x);
+		sum /= (1.f + obertonesDuplicate);
 		return sum;
 	}
-		,-PI, PI, lookupTableNumPoints);
+		,-PIVal, PIVal, meterNumberVal);
 
-	lookupTableO1.reset(table);
-	Osc1 = [table](float x) { return (*table) (x); };
-	if (osc1Selection == 4) Osc1 = randomFloat;
+	meter1.reset(table);
+	OSC_1 = [table](float x) { return (*table) (x); };
+	if (osc1Selection == 4) OSC_1 = randomFloat;
 }
 
-void OscData::createLookupTableO2(const int osc2Selection)
+//Oscilloscope(meter) 
+void OscData::makeLookupTable2(const int osc2Selection)
 {
-	const size_t lookupTableNumPoints = 128;
+	const size_t meterNumberVal = 128;
 
-	float(*funcPtr)(float) = std::sin;
+	float(*funcPtr)(float) = std::sin; // the basic sine waveform; y = sine(x);
+
 	switch (osc2Selection)
 	{
 	case 1: funcPtr = saw; break;
@@ -141,14 +145,14 @@ void OscData::createLookupTableO2(const int osc2Selection)
 	case 4: funcPtr = randomFloat; break;
 	case 5: funcPtr = sawSmooth; break;
 	case 6: funcPtr = reverseSawtooth; break;
-	case 7: funcPtr = softdistSine; break;
-	case 8: funcPtr = harddistSine; break;
+	case 7: funcPtr = softSine; break;
+	case 8: funcPtr = hardSine; break;
 	}
 
-	auto* table = new juce::dsp::LookupTableTransform<float>(funcPtr, -PI, PI, lookupTableNumPoints);
+	auto* table = new juce::dsp::LookupTableTransform<float>(funcPtr, -PIVal, PIVal, meterNumberVal);
 
-	lookupTableO2.reset(table);
-	Osc2 = [table](float x) { return (*table) (x); };
-	if (osc2Selection == 4) Osc2 = randomFloat;
+	meter2.reset(table);
+	OSC_2 = [table](float x) { return (*table) (x); };
+	if (osc2Selection == 4) OSC_2 = randomFloat;
 }
 

@@ -12,7 +12,6 @@ OscComponent::OscComponent(juce::AudioProcessorValueTreeState& apvts,
 	juce::String&& panId, juce::String&& unisonId)
 
 {
-	//juce::StringArray oscChoices { "Sine", "Saw", "Square", "Triangle", "Noice", "Saw smooth" };
 	oscSelector.addItemList(oscTypes, 1);
 	oscSelector.setSelectedItemIndex(0);
 	addAndMakeVisible(oscSelector);

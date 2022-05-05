@@ -16,8 +16,8 @@ MeterComponent::~MeterComponent()
 {
 }
 
-inline float scale(float v, float a, float b, float x, float y) {
-	return (v - a) / (b - a) * (y - x) + x;
+inline float size(float v1, float v2, float v3, float x, float y) {
+	return (v1 - v2) / (v3 - v2) * (y - x) + x;
 }
 
 void MeterComponent::paintOverChildren(juce::Graphics& g)
@@ -30,28 +30,30 @@ void MeterComponent::paintOverChildren(juce::Graphics& g)
 	if (samplesPtr != nullptr) {
 		auto numSamples = buffer.getNumSamples();
 
-		float paddingX = 8;
+		float padding_X = 8;
 
 		g.setColour(juce::Colour::fromRGB(15, 199, 149));
-		float width = getRight() - paddingX * 2, height = getHeight();
+
+		float width = getRight() - padding_X * 2, height = getHeight();
 		float xStep = width / numSamples;
 
-		float x = paddingX, y = scale(samplesPtr[0], -3.f, 3.f, height, 0.f);
-		float xNew, yNew;
+		float x = padding_X, y = size(samplesPtr[0], -3.f, 3.f, height, 0.f);
+		float updateX, updateY;
 		for (int i = 1; i < numSamples; i++)
 		{
-			xNew = x + xStep;
-			yNew = scale(samplesPtr[i], -3.f, 3.f, height, 0.f);
-			g.drawLine(x, 110, xNew, yNew); //x, y, nNew, yNew (only line graph);
-			x = xNew; y = yNew;
+			updateX = x + xStep;
+			updateY = size(samplesPtr[i], -3.f, 3.f, height, 0.f);
+			g.drawLine(x, 110, updateX, updateY); //x, y, updateX, updateY (only shows line graph);
+			x = updateX; 
+			y = updateY;
 		}
 		//========================
 		float rms = buffer.getRMSLevel(0, 0, numSamples);
 		float magnitude = buffer.getMagnitude(0, 0, numSamples);
 
-		g.fillRoundedRectangle(paddingX, height - height / 8, magnitude * 100, height / 8 - paddingX, 2);
+		g.fillRoundedRectangle(padding_X, height - height / 8, magnitude * 100, height / 8 - padding_X, 2);
 		g.setColour(juce::Colour::fromRGB(25, 25, 25));
-		g.fillRoundedRectangle(paddingX, height - height / 8, rms * 100, height / 8 - paddingX, 2);
+		g.fillRoundedRectangle(padding_X, height - height / 8, rms * 100, height / 8 - padding_X, 2);
 		//buffer.max
 	}
 
